@@ -55,7 +55,7 @@ public class SettingsActivity extends ComponentActivity {
 
     @Override
     public void onBackPressed() {
-
+        //Todo: Switch to JetPack navigation
         Intent intent=new Intent();
         intent.putExtra(Settings.FIRST_COUNTRY, _viewModel.get_item1Iso().getValue());
         intent.putExtra(Settings.SECOND_COUNTRY, _viewModel.get_item2Iso().getValue());

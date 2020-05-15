@@ -52,7 +52,7 @@ public class MainViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-
+                //Todo: need a way to convey to the user that the data load has failed
             }
         }, e);
     }

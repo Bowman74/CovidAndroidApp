@@ -74,7 +74,7 @@ public class SettingsViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-
+                // Purposely ignoring failure.
             }
         }, e);
     }
@@ -93,7 +93,7 @@ public class SettingsViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-
+                // Purposely ignoring failure.
             }
         }, e);
     }
@@ -112,7 +112,7 @@ public class SettingsViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-
+                // Purposely ignoring failure.
             }
         }, e);
     }

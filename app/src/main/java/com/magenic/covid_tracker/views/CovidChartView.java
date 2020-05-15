@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//Todo: occasionally this chart crashes the app, investigate why. Resources not being properly cleaned?
 public class CovidChartView extends LineChart {
 
     public CovidChartView(Context context) {

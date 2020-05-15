@@ -55,6 +55,7 @@ public class CovidDataService implements ICovidDataService {
                         String[] attributes = line.split(",");
 
                         if (!attributes[0].isEmpty()) {
+                            //Todo: Add more robust handling of parsing of values, some error could happed if input data is bad
                             CovidData newData = new CovidData(attributes[DataPoint.IsoCode.ordinal()], attributes[DataPoint.Region.ordinal()],
                                     new SimpleDateFormat("yyyy-MM-dd").parse(attributes[DataPoint.Date.ordinal()]), Integer.parseInt(attributes[DataPoint.TotalCases.ordinal()]),
                                     Integer.parseInt(attributes[DataPoint.NewCases.ordinal()]), Integer.parseInt(attributes[DataPoint.TotalDeaths.ordinal()]),

@@ -42,6 +42,8 @@ public class MainActivity extends ComponentActivity implements Toolbar.OnMenuIte
 
         topAppBar.setOnMenuItemClickListener(this);
         _viewModel = new ViewModelProvider(this, _dIViewModelFactory).get(MainViewModel.class);
+        //Todo: need some way to have a busy state while data is loading
+        //Todo: should the chart view be bindable?
         _viewModel.getCovidData().observe(this, covidDataList -> {
             drawChart(covidDataList, _viewModel.get_item1Iso().getValue(), _viewModel.get_item2Iso().getValue(), _viewModel.get_metric().getValue());
         });
@@ -82,6 +84,7 @@ public class MainActivity extends ComponentActivity implements Toolbar.OnMenuIte
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
+        //Todo: Settings shouldn't be able to be navigated to until data is loaded
         switch (menuItem.getItemId()) {
             case R.id.action_settings:
                 Intent intent= new Intent(MainActivity.this, SettingsActivity.class);
