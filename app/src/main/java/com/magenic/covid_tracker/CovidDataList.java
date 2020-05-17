@@ -1,15 +1,12 @@
 package com.magenic.covid_tracker;
 
-import com.magenic.covid_tracker.CovidData;
-
 import java.util.ArrayList;
 
 public class CovidDataList extends ArrayList<CovidData> {
 
     public ArrayList<String> getIsoCodes() {
-
         ArrayList<String> returnValue = new ArrayList<String>();
-
+        Integer i = 0;
         for (CovidData curItem : this) {
             String returnItem = concatIso(curItem.getIsoCode(), curItem.getRegion());
             if (!contains(returnValue, returnItem)) {

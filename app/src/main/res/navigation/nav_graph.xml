@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainChartView">
+    <fragment
+        android:id="@+id/mainChartView"
+        android:name="com.magenic.covid_tracker.fragments.MainChartView"
+        android:label="MainChartView" >
+        <action
+            android:id="@+id/navigate_to_settings_view"
+            app:destination="@id/settingsView"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainChartView"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsView"
+        android:name="com.magenic.covid_tracker.fragments.SettingsView"
+        android:label="SettingsView" >
+        <argument
+            android:name="FirstCountry"
+            app:argType="string" />
+        <argument
+            android:name="SecondCountry"
+            app:argType="string" />
+        <argument
+            android:name="Metric"
+            app:argType="integer" />
+        <argument
+            android:name="IsoCodes"
+            app:argType="string[]" />
+    </fragment>
+</navigation>
