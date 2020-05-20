@@ -21,6 +21,8 @@ public class MainViewModel extends BaseViewModel {
 
     private MutableLiveData<CovidDataList> _covidData;
 
+    private MutableLiveData<Boolean> _dataLoaded = new MutableLiveData<Boolean>(false);
+
     MutableLiveData<String> _item1Iso = new MutableLiveData<String>("USA");
     MutableLiveData<String> _item2Iso = new MutableLiveData<String>("ITA");
     MutableLiveData<DataPoint> _metric = new MutableLiveData<DataPoint>(DataPoint.NewDeaths);
@@ -41,30 +43,63 @@ public class MainViewModel extends BaseViewModel {
 
     private void loadCovidData(MutableLiveData<CovidDataList> covidData) {
         ListenableFuture<CovidDataList> covidDataFuture = _covidDataService.GetCovidInformation();
+        set_isBusy(true);
+        set_dataLoaded(false);
+
 
         ExecutorService e = Executors.newCachedThreadPool();
 
         Futures.addCallback(covidDataFuture, new FutureCallback<CovidDataList>() {
             @Override
             public void onSuccess(CovidDataList returnedList) {
+
                 covidData.postValue(returnedList);
+                set_isBusy(false);
+                set_dataLoaded(true);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                //Todo: need a way to convey to the user that the data load has failed
+                sendMessage("Network Error", "There was an issue retrieving the Covid data over the network. Please refresh to try again.");
+                set_isBusy(false);
             }
         }, e);
     }
 
-    public MutableLiveData<String> get_item1Iso() {
+    public void refreshCovidData() {
+        _covidData.postValue(new CovidDataList());
+        loadCovidData(_covidData);
+    }
+
+    public LiveData<String> get_item1Iso() {
         return _item1Iso;
     }
 
+    public void set_item1Iso(String item1Iso) {
+        this._item1Iso.postValue(item1Iso);
+    }
 
-    public MutableLiveData<String> get_item2Iso() {
+    public LiveData<String> get_item2Iso() {
         return _item2Iso;
     }
 
-    public MutableLiveData<DataPoint> get_metric() {  return _metric; }
+    public void set_item2Iso(String item2Iso) {
+        this._item2Iso.postValue(item2Iso);
+    }
+
+    public LiveData<DataPoint> get_metric() {
+        return _metric;
+    }
+
+    public void set_metric(DataPoint metric) {
+        this._metric.postValue(metric);
+    }
+
+    public LiveData<Boolean> get_dataLoaded() {
+        return _dataLoaded;
+    }
+
+    public void set_dataLoaded(Boolean dataLoaded) {
+        this._dataLoaded.postValue(dataLoaded);
+    }
 }

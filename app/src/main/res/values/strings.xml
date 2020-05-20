@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">COVID-19 Tracker</string>
     <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh Data</string>
     <string name="first_country_setting">First Country:</string>
     <string name="second_country_setting">Second Country:</string>
     <string name="metric_setting">Metric:</string>

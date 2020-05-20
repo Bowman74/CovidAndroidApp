@@ -3,5 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
+        android:enabled="false"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        android:enabled="false"
         app:showAsAction="never"/>
 </menu>

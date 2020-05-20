@@ -1,5 +1,6 @@
 package com.magenic.covid_tracker.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -11,6 +12,8 @@ import com.magenic.covid_tracker.enums.DataPoint;
 import com.magenic.covid_tracker.interfaces.IListHelpers;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,16 +29,28 @@ public class SettingsViewModel extends BaseViewModel {
     @Inject
     public SettingsViewModel() { }
 
-    public MutableLiveData<String> get_item1Iso() {
+    public LiveData<String> get_item1Iso() {
         return _item1Iso;
     }
 
-    public MutableLiveData<String> get_item2Iso() {
+    public void set_item1Iso(String item1Iso) {
+        _item1Iso.postValue(item1Iso);
+    }
+
+    public LiveData<String> get_item2Iso() {
         return _item2Iso;
     }
 
-    public MutableLiveData<DataPoint> get_metric() {
+    public void set_item2Iso(String item2Iso) {
+        _item2Iso.postValue(item2Iso);
+    }
+
+    public LiveData<DataPoint> get_metric() {
         return _metric;
+    }
+
+    public void set_metric(DataPoint metric) {
+        _metric.postValue(metric);
     }
 
     public ArrayList<IsoInfo> get_isoCodes() {
@@ -57,6 +72,7 @@ public class SettingsViewModel extends BaseViewModel {
         for (IsoInfo info : _isoCodes) {
             returnValues.add(info.get_region());
         }
+        Collections.sort(returnValues);
         return returnValues.toArray(new String[0]);
     }
 
@@ -68,7 +84,7 @@ public class SettingsViewModel extends BaseViewModel {
             @Override
             public void onSuccess(String returnedItem) {
                 if(!returnedItem.equals("")) {
-                    get_item1Iso().postValue(getIsoFromRegion(returnedItem));
+                    set_item1Iso(getIsoFromRegion(returnedItem));
                 }
             }
 
@@ -87,7 +103,7 @@ public class SettingsViewModel extends BaseViewModel {
             @Override
             public void onSuccess(String returnedItem) {
                 if(!returnedItem.equals("")) {
-                    get_item2Iso().postValue(getIsoFromRegion(returnedItem));
+                    set_item2Iso(getIsoFromRegion(returnedItem));
                 }
             }
 
@@ -106,7 +122,7 @@ public class SettingsViewModel extends BaseViewModel {
             @Override
             public void onSuccess(String returnedItem) {
                 if(!returnedItem.equals("")) {
-                    get_metric().postValue(CovidData.getDataPointMetric((returnedItem)));
+                    set_metric(CovidData.getDataPointMetric((returnedItem)));
                 }
             }
 

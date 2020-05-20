@@ -28,22 +28,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
 
-public class MainChartView extends Fragment implements Toolbar.OnMenuItemClickListener {
+public class MainChartView extends BaseView<MainViewModel> implements Toolbar.OnMenuItemClickListener {
     @Inject
     DIViewModelFactory _dIViewModelFactory;
 
-    MainViewModel _viewModel;
-
     public MainChartView() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AndroidSupportInjection.inject(this);
     }
 
     @Nullable
@@ -55,8 +46,7 @@ public class MainChartView extends Fragment implements Toolbar.OnMenuItemClickLi
         MaterialToolbar topAppBar = binding.getRoot().findViewById(R.id.mainToolbar);
 
         topAppBar.setOnMenuItemClickListener(this);
-        _viewModel = new ViewModelProvider(getActivity(), _dIViewModelFactory).get(MainViewModel.class);
-        //Todo: need some way to have a busy state while data is loading
+        createViewModel(MainViewModel.class);
         //Todo: should the chart view be bindable?
         _viewModel.getCovidData().observe(this.getViewLifecycleOwner(), covidDataList -> {
             drawChart(covidDataList, _viewModel.get_item1Iso().getValue(), _viewModel.get_item2Iso().getValue(), _viewModel.get_metric().getValue());
@@ -69,6 +59,26 @@ public class MainChartView extends Fragment implements Toolbar.OnMenuItemClickLi
         });
         _viewModel.get_item2Iso().observe(this.getViewLifecycleOwner(), newItem2Iso -> {
             drawChart(_viewModel.getCovidData().getValue(), _viewModel.get_item1Iso().getValue(), newItem2Iso, _viewModel.get_metric().getValue());
+        });
+        _viewModel.get_isBusy().observe(this.getViewLifecycleOwner(), isBusy -> {
+            MaterialToolbar item = this.getView().findViewById(R.id.mainToolbar);
+            if (item != null) {
+                MenuItem menuItem = item.getMenu().getItem(1);
+
+                if (menuItem != null) {
+                    menuItem.setEnabled(!isBusy);
+                }
+            }
+        });
+        _viewModel.get_dataLoaded().observe(this.getViewLifecycleOwner(), dataLoaded -> {
+            MaterialToolbar item = this.getView().findViewById(R.id.mainToolbar);
+            if (item != null) {
+                MenuItem menuItem = item.getMenu().getItem(0);
+
+                if (menuItem != null) {
+                    menuItem.setEnabled(dataLoaded);
+                }
+            }
         });
 
         binding.setViewmodel(_viewModel);
@@ -93,6 +103,9 @@ public class MainChartView extends Fragment implements Toolbar.OnMenuItemClickLi
                 NavController navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
                 navController.navigate(R.id.navigate_to_settings_view);
 
+                break;
+            case R.id.action_refresh:
+                _viewModel.refreshCovidData();
                 break;
         }
         return false;

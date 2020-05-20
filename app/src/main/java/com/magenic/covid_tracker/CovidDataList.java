@@ -1,6 +1,7 @@
 package com.magenic.covid_tracker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CovidDataList extends ArrayList<CovidData> {
 
@@ -13,6 +14,7 @@ public class CovidDataList extends ArrayList<CovidData> {
                 returnValue.add(returnItem);
             }
         }
+        Collections.sort(returnValue);
         return  returnValue;
     }
 
@@ -26,6 +28,6 @@ public class CovidDataList extends ArrayList<CovidData> {
     }
 
     private String concatIso(String isoCode, String regionName) {
-        return isoCode.concat("::").concat(regionName);
+        return regionName.concat("::").concat(isoCode);
     }
 }
