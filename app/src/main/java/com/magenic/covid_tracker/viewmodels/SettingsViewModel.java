@@ -12,7 +12,6 @@ import com.magenic.covid_tracker.enums.DataPoint;
 import com.magenic.covid_tracker.interfaces.IListHelpers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

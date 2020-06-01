@@ -10,7 +10,7 @@
         android:label="MainChartView" >
         <action
             android:id="@+id/navigate_to_settings_view"
-            app:destination="@id/settingsView"
+            app:destination="@id/settings_graph"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -18,21 +18,13 @@
             app:popUpTo="@id/mainChartView"
             app:popUpToInclusive="false" />
     </fragment>
-    <fragment
-        android:id="@+id/settingsView"
-        android:name="com.magenic.covid_tracker.fragments.SettingsView"
-        android:label="SettingsView" >
-        <argument
-            android:name="FirstCountry"
-            app:argType="string" />
-        <argument
-            android:name="SecondCountry"
-            app:argType="string" />
-        <argument
-            android:name="Metric"
-            app:argType="integer" />
-        <argument
-            android:name="IsoCodes"
-            app:argType="string[]" />
-    </fragment>
+    <navigation
+        android:id="@+id/settings_graph"
+        app:startDestination="@id/settingsView" >
+        <fragment
+            android:id="@+id/settingsView"
+            android:name="com.magenic.covid_tracker.fragments.SettingsView"
+            android:label="SettingsView">
+        </fragment>
+    </navigation>
 </navigation>

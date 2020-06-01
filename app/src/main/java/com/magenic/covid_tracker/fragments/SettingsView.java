@@ -8,24 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.magenic.covid_tracker.IsoInfo;
 import com.magenic.covid_tracker.R;
 import com.magenic.covid_tracker.databinding.SettingsviewBindingImpl;
 import com.magenic.covid_tracker.helpers.ListHelpers;
-import com.magenic.covid_tracker.infrastructure.DIViewModelFactory;
-import com.magenic.covid_tracker.viewmodels.BaseViewModel;
 import com.magenic.covid_tracker.viewmodels.MainViewModel;
 import com.magenic.covid_tracker.viewmodels.SettingsViewModel;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
-
-import dagger.android.support.AndroidSupportInjection;
 
 public class SettingsView extends BaseView<SettingsViewModel> {
 
@@ -40,9 +35,14 @@ public class SettingsView extends BaseView<SettingsViewModel> {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SettingsviewBindingImpl binding = DataBindingUtil.inflate(inflater, R.layout.settingsview, container, false);
 
-        createViewModel(SettingsViewModel.class);
+        NavController navController = NavHostFragment.findNavController(this);
+
+        ViewModelStoreOwner owner = navController.getViewModelStoreOwner(R.id.settings_graph);
+
+        createViewModel(owner, SettingsViewModel.class);
 
         _soureViewModel = new ViewModelProvider(getActivity(), _dIViewModelFactory).get(MainViewModel.class);
+
 
         _viewModel.set_item1Iso(_soureViewModel.get_item1Iso().getValue());
         _viewModel.get_item1Iso().observe(this.getViewLifecycleOwner(), item1Iso -> {
@@ -71,5 +71,4 @@ public class SettingsView extends BaseView<SettingsViewModel> {
 
         return binding.getRoot();
     }
-
 }

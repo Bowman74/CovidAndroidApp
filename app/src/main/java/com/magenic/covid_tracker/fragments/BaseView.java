@@ -3,10 +3,12 @@ package com.magenic.covid_tracker.fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.magenic.covid_tracker.R;
 import com.magenic.covid_tracker.constants.EventNames;
@@ -32,7 +34,17 @@ public class BaseView<T extends BaseViewModel> extends Fragment {
     }
 
     protected void createViewModel(Class<T> classRtType) {
-        _viewModel = new ViewModelProvider(getActivity(), _dIViewModelFactory).get(classRtType);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(getActivity(), _dIViewModelFactory);
+        this.createViewModel(viewModelProvider, classRtType);
+    }
+
+    protected void createViewModel(@NonNull ViewModelStoreOwner owner, @NonNull Class<T> classRtType) {
+        ViewModelProvider viewModelProvider = new ViewModelProvider(owner, _dIViewModelFactory);
+        this.createViewModel(viewModelProvider, classRtType);
+    }
+
+    private void createViewModel(@NonNull ViewModelProvider viewModelProvider, Class<T> classRtType) {
+        _viewModel = viewModelProvider.get(classRtType);
         _viewModel.get_event().observe(this.getViewLifecycleOwner(), event -> {
             if (event != null) {
                 handleEvent(event);
